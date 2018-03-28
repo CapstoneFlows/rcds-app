@@ -168,7 +168,7 @@ public class MainActivity extends ListActivity
  		    configureScan(true);
     	    mTumakuBLE.startLeScan();
     	    //automatically stop LE scan after 5 seconds
-	    	mHandler.postDelayed(mStopRunnable, 30000); 
+	    	mHandler.postDelayed(mStopRunnable, 2000);
     	}
     }
 
