@@ -15,6 +15,12 @@
     <string name="comment_box">COMMENT</string>
     <string name="state_box">STATE</string>
 
+    <string-array name="cmd_array">
+        <item>Set Parameters</item>
+        <item>Start Running</item>
+        <item>Stop Running</item>
+        <item>Reset Device</item>
+    </string-array>
     <string name="run_button">Run</string>
 
     <!-- BLE utils items -->
