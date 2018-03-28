@@ -1,0 +1,172 @@
+<?xml version="1.0" encoding="utf-8"?>
+<android.support.constraint.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".RCDSTool">
+
+    <TextView
+        android:id="@+id/dir_label"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="16dp"
+        android:text="@string/dir_label"
+        app:layout_constraintEnd_toEndOf="@+id/loc_label"
+        app:layout_constraintStart_toStartOf="@+id/loc_label"
+        app:layout_constraintTop_toTopOf="@+id/dir_box" />
+
+    <EditText
+        android:id="@+id/dir_box"
+        android:layout_width="0dp"
+        android:layout_height="50dp"
+        android:layout_marginEnd="32dp"
+        android:layout_marginTop="8dp"
+        android:ems="10"
+        android:hint="@string/dir_box"
+        android:inputType="text"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="@+id/loc_box"
+        app:layout_constraintTop_toBottomOf="@+id/loc_box" />
+
+    <TextView
+        android:id="@+id/comment_label"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="16dp"
+        android:text="@string/comment_label"
+        app:layout_constraintEnd_toEndOf="@+id/dir_label"
+        app:layout_constraintStart_toStartOf="@+id/dir_label"
+        app:layout_constraintTop_toTopOf="@+id/comment_box" />
+
+    <EditText
+        android:id="@+id/comment_box"
+        android:layout_width="0dp"
+        android:layout_height="50dp"
+        android:layout_marginEnd="32dp"
+        android:layout_marginTop="8dp"
+        android:ems="10"
+        android:hint="@string/comment_box"
+        android:inputType="text"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="@+id/dir_box"
+        app:layout_constraintTop_toBottomOf="@+id/dir_box" />
+
+    <Spinner
+        android:id="@+id/cmd_select"
+        android:layout_width="0dp"
+        android:layout_height="50dp"
+        android:layout_marginEnd="8dp"
+        android:layout_marginStart="16dp"
+        android:layout_marginTop="8dp"
+        android:entries="@array/cmd_array"
+        app:layout_constraintEnd_toStartOf="@+id/run_button"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/cmd_label" />
+
+    <TextView
+        android:id="@+id/cmd_label"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="16dp"
+        android:layout_marginTop="16dp"
+        android:text="@string/cmd_label"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <Button
+        android:id="@+id/run_button"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginEnd="16dp"
+        android:layout_marginTop="8dp"
+        android:onClick="onRunBtn"
+        android:text="@string/run_button"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/cmd_label" />
+
+    <TextView
+        android:id="@+id/id_label"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginEnd="16dp"
+        android:layout_marginStart="16dp"
+        android:layout_marginTop="16dp"
+        android:text="@string/id_label"
+        app:layout_constraintEnd_toStartOf="@+id/id_box"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="@+id/id_box" />
+
+    <EditText
+        android:id="@+id/id_box"
+        android:layout_width="0dp"
+        android:layout_height="50dp"
+        android:layout_marginEnd="32dp"
+        android:layout_marginTop="8dp"
+        android:ems="10"
+        android:hint="@string/id_box"
+        android:inputType="text"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/cmd_select" />
+
+    <TextView
+        android:id="@+id/loc_label"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="16dp"
+        android:text="@string/loc_label"
+        app:layout_constraintEnd_toEndOf="@+id/id_label"
+        app:layout_constraintStart_toStartOf="@+id/id_label"
+        app:layout_constraintTop_toTopOf="@+id/loc_box" />
+
+    <EditText
+        android:id="@+id/loc_box"
+        android:layout_width="0dp"
+        android:layout_height="50dp"
+        android:layout_marginEnd="32dp"
+        android:layout_marginTop="8dp"
+        android:ems="10"
+        android:hint="@string/loc_box"
+        android:inputType="text"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="@+id/id_box"
+        app:layout_constraintTop_toBottomOf="@+id/id_box" />
+
+    <TextView
+        android:id="@+id/state_label"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="16dp"
+        android:text="@string/state_label"
+        app:layout_constraintEnd_toEndOf="@+id/comment_label"
+        app:layout_constraintStart_toStartOf="@+id/comment_label"
+        app:layout_constraintTop_toTopOf="@+id/state_box" />
+
+    <EditText
+        android:id="@+id/state_box"
+        android:layout_width="0dp"
+        android:layout_height="50dp"
+        android:layout_marginEnd="32dp"
+        android:layout_marginTop="8dp"
+        android:ems="10"
+        android:hint="@string/state_box"
+        android:inputType="none"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="@+id/comment_box"
+        app:layout_constraintTop_toBottomOf="@+id/comment_box" />
+
+    <EditText
+        android:id="@+id/terminal"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        android:layout_marginBottom="8dp"
+        android:layout_marginEnd="8dp"
+        android:layout_marginStart="8dp"
+        android:layout_marginTop="8dp"
+        android:ems="10"
+        android:inputType="none"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/state_box" />
+</android.support.constraint.ConstraintLayout>

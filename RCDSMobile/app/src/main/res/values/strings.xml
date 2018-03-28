@@ -1,0 +1,32 @@
+<resources>
+    <string name="app_name">RCDS Mobile</string>
+
+    <!-- RCDS specific items -->
+    <string name="cmd_label">Select Command</string>
+    <string name="id_label">Device ID</string>
+    <string name="loc_label">Location</string>
+    <string name="dir_label">Direction</string>
+    <string name="comment_label">Comment</string>
+    <string name="state_label">State</string>
+
+    <string name="id_box">ID</string>
+    <string name="loc_box">LOC</string>
+    <string name="dir_box">DIR</string>
+    <string name="comment_box">COMMENT</string>
+    <string name="state_box">STATE</string>
+
+    <string-array name="cmd_array">
+        <item>Set Parameters</item>
+        <item>Start Running</item>
+        <item>Stop Running</item>
+        <item>Reset Device</item>
+    </string-array>
+    <string name="run_button">Run</string>
+
+    <!-- MSMBle items -->
+    <string name="scan">Scan</string>
+    <string name="stopScan">Stop Scan</string>
+    <string name="reconnect">Reconnect</string>
+    <string name="yeelight">yeelight</string>
+    <string name="sensortag">sensortag</string>
+</resources>
