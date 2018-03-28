@@ -1,0 +1,36 @@
+<resources>
+    <string name="app_name">RCDS Tool</string>
+
+    <!-- RCDS specific items -->
+    <string name="cmd_label">Select Command</string>
+    <string name="id_label">Device ID</string>
+    <string name="loc_label">Location</string>
+    <string name="dir_label">Direction</string>
+    <string name="comment_label">Comment</string>
+    <string name="state_label">State</string>
+
+    <string name="id_box">ID</string>
+    <string name="loc_box">LOC</string>
+    <string name="dir_box">DIR</string>
+    <string name="comment_box">COMMENT</string>
+    <string name="state_box">STATE</string>
+
+    <string name="run_button">Run</string>
+
+    <!-- BLE utils items -->
+    <string name="ble_not_supported">BLE is not supported</string>
+    <string name="connected">Connected</string>
+    <string name="disconnected">Disconnected</string>
+    <string name="title_devices">BLE Device Scan</string>
+    <string name="error_bluetooth_not_supported">Bluetooth not supported.</string>
+
+    <string name="unknown_device">Unknown device</string>
+    <string name="unknown_characteristic">Unknown characteristic</string>
+    <string name="unknown_service">Unknown service</string>
+
+    <!-- Menu items -->
+    <string name="menu_connect">Connect</string>
+    <string name="menu_disconnect">Disconnect</string>
+    <string name="menu_scan">Scan</string>
+    <string name="menu_stop">Stop</string>
+</resources>
