@@ -211,11 +211,8 @@ public class RCDSMobileActivity extends AppCompatActivity {
         if (data == null) {
             return;
         }
-        if (data.contains(" ID=")) {
-            parseInfo1(data);
-            return;
-        } else if (data.contains(" DIR=")) {
-            parseInfo2(data);
+        if (data.contains(" ID=") || data.contains(" LOC=") || data.contains(" DIR=") || data.contains(" COMMENT=")) {
+            parseInfo(data);
             return;
         } else if (data.contains("TIME_ACK") || data.contains("TIME_SYNCED")) {
             if ((mStateM==WSTATE_DUMMY)) {
@@ -293,15 +290,22 @@ public class RCDSMobileActivity extends AppCompatActivity {
         }
     }
 
-    private void parseInfo1(String info) {
-        mState.setText(info.split(" ")[0]);
-        mID.setText(info.split(" ID=")[1].split(" LOC=")[0]);
-        mLoc.setText(info.split(" LOC=")[1].split(" DIR=")[0]);
-    }
-
-    private void parseInfo2(String info) {
-        mDir.setText(info.split(" DIR=")[1].split(" COMMENT=")[0]);
-        mComment.setText(info.split(" COMMENT=")[1].split("\r")[0]);
+    private void parseInfo(String info) {
+        try {
+            mState.setText(info.split(" ID=")[0]);
+        } catch (ArrayIndexOutOfBoundsException e) {}
+        try {
+            mID.setText(info.split(" ID=")[1].split(" LOC=")[0]);
+        } catch (ArrayIndexOutOfBoundsException e) {}
+        try {
+            mLoc.setText(info.split(" LOC=")[1].split(" DIR=")[0]);
+        } catch (ArrayIndexOutOfBoundsException e) {}
+        try {
+            mDir.setText(info.split(" DIR=")[1].split(" COMMENT=")[0]);
+        } catch (ArrayIndexOutOfBoundsException e) {}
+        try {
+            mComment.setText(info.split(" COMMENT=")[1].split("\r")[0]);
+        } catch (ArrayIndexOutOfBoundsException e) {}
     }
 
     protected void updateInfoText(String text) {
