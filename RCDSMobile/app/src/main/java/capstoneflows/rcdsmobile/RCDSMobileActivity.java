@@ -208,11 +208,14 @@ public class RCDSMobileActivity extends AppCompatActivity {
     }
 
     private void handleResponse(String data) {
-        if (data != null) {
+        if (data == null) {
             return;
         }
         if (data.contains(" ID=")) {
-            parseInfo(data);
+            parseInfo1(data);
+            return;
+        } else if (data.contains(" DIR=")) {
+            parseInfo2(data);
             return;
         } else if (data.contains("TIME_ACK") || data.contains("TIME_SYNCED")) {
             if ((mStateM==WSTATE_DUMMY)) {
@@ -290,21 +293,24 @@ public class RCDSMobileActivity extends AppCompatActivity {
         }
     }
 
-    private void parseInfo(String info) {
-        mID.setText(info.split(" ")[0]);
-        mLoc.setText(info.split(" ID=")[1].split(" LOC=")[0]);
-        mDir.setText(info.split(" LOC=")[1].split(" DIR=")[0]);
-        mComment.setText(info.split(" DIR=")[1].split(" COMMENT=")[0]);
-        mState.setText(info.split(" COMMENT=")[1].split("\r")[0]);
+    private void parseInfo1(String info) {
+        mState.setText(info.split(" ")[0]);
+        mID.setText(info.split(" ID=")[1].split(" LOC=")[0]);
+        mLoc.setText(info.split(" LOC=")[1].split(" DIR=")[0]);
+    }
+
+    private void parseInfo2(String info) {
+        mDir.setText(info.split(" DIR=")[1].split(" COMMENT=")[0]);
+        mComment.setText(info.split(" COMMENT=")[1].split("\r")[0]);
     }
 
     protected void updateInfoText(String text) {
-        mTerminal.append(text+"\n");
+        mTerminal.append("UPDATE:"+text+"\n");
     }
     protected void updateNotificationText(String text) {
-        mTerminal.append(text+"\n");
+        mTerminal.append("NOTIFICATION:"+text+"\n");
     }
-    protected void displayText(String text) { mTerminal.append(text+"\n"); }
+    protected void displayText(String text) { mTerminal.append("DISPLAY:"+text+"\n"); }
 
     private class HM10BroadcastReceiver extends BroadcastReceiver {
         //YeelightCallBack.WRITE_SUCCESS);
