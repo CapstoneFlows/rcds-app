@@ -26,6 +26,7 @@
 package capstoneflows.rcdsmobile;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 
 import android.os.Bundle;
@@ -38,6 +39,7 @@ import android.content.Context;
 import android.content.Intent;
 import android.graphics.Color;
 import android.graphics.Typeface;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuItem;
@@ -54,6 +56,7 @@ public class MainActivity extends ListActivity
 	implements OnItemClickListener, LeScanCallback {
 	
 	private static final int SCAN_ITEM =1;
+	private static final String TAG = "MainActivity";
 	//private ConnectionManager mConnectionManager;
 	private TumakuBLE mTumakuBLE;
 	private static List <BluetoothDevice> mDeviceList=null;
@@ -64,6 +67,7 @@ public class MainActivity extends ListActivity
 	private boolean isScanning =false;
     private Handler mHandler = new Handler() ;
     private static Activity mActivity;
+    private static HashMap<String, BluetoothDevice> dupChecker = new HashMap<>();
     
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
@@ -79,7 +83,8 @@ public class MainActivity extends ListActivity
         mAdapter=new MySimpleArrayAdapter(mContext,mDeviceList);
         mListView.setAdapter(mAdapter);
         //listView.setAdapter(new LazyAdapter(this));
-        mListView.setOnItemClickListener(this);    	
+        mListView.setOnItemClickListener(this);
+        scan();
 
 	}
 	
@@ -107,6 +112,7 @@ public class MainActivity extends ListActivity
 	protected void onResume() {
 		super.onResume();
 		mAdapter.clear();
+		mAdapter.notifyDataSetChanged();
 		TumakuBLE.setup();
 	}
     
@@ -142,9 +148,9 @@ public class MainActivity extends ListActivity
 	public void configureScan(boolean flag) {
 		isScanning=flag;
 		String itemText=null;
-		if (isScanning) itemText=getResources().getString(R.string.stopScan);
-	    else itemText=getResources().getString(R.string.scan);
-		mMenu.findItem(SCAN_ITEM).setTitle(itemText);
+//		if (isScanning) itemText=getResources().getString(R.string.stopScan);
+//	    else itemText=getResources().getString(R.string.scan);
+//		mMenu.findItem(SCAN_ITEM).setTitle(itemText);
 	}
 	
 	//Handle automatic stop of LEScan 
@@ -158,12 +164,13 @@ public class MainActivity extends ListActivity
 
     
     private void scan() {
+
     	if (isScanning) { //stop scanning
  		    configureScan(false);
     		mTumakuBLE.stopLeScan();
     		return;
     	} else {
-    	    mAdapter.clear();
+			mAdapter.clear();
     	    mAdapter.notifyDataSetChanged();
  		    configureScan(true);
     	    mTumakuBLE.startLeScan();
@@ -186,8 +193,11 @@ public class MainActivity extends ListActivity
 	    mActivity.runOnUiThread(new Runnable() {
 		        @Override
 		        public void run() {
-				    mAdapter.add(finalDevice);	
-				    mAdapter.notifyDataSetChanged();
+		        	if (dupChecker.get(finalDevice.getAddress()) == null){
+		        		dupChecker.put(finalDevice.getAddress(),finalDevice);
+						mAdapter.add(finalDevice);
+						mAdapter.notifyDataSetChanged();
+					}
 		        }
 			}
 	       );
@@ -199,9 +209,10 @@ public class MainActivity extends ListActivity
     public class MySimpleArrayAdapter extends ArrayAdapter<BluetoothDevice> {
   	  private final Context context;
   	  public MySimpleArrayAdapter(Context context, List<BluetoothDevice> deviceList) {
+
   	    super(context, R.layout.device_list_item, deviceList);
   	    this.context = context;
-  	  }
+	  }
 
   	  @Override
   	  public View getView(int position, View convertView, ViewGroup parent) {
