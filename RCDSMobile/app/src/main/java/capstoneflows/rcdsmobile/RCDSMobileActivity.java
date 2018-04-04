@@ -221,21 +221,7 @@ public class RCDSMobileActivity extends AppCompatActivity{
         if (data == null) {
             return;
         }
-        if(data.endsWith("@#\r\n")){
-            msgBuilder.append(data);
-            String msg = msgBuilder.toString();
-            Log.d(TAG,"full msg is :"+msg);
-            parseInfo(msg.split("@#\r\n")[0]);
-            msgBuilder = new StringBuilder();
-        }else if(data.endsWith("\r\n")){
-            Log.d(TAG,"ignore code:"+data);
-        }
-        else{
-            msgBuilder.append(data);
-            Log.d(TAG,"current msg is:"+msgBuilder.toString());
-        }
-//sasdgah = ["NEED_VARS", "READY", "RUNNING", "SD_INIT_ERROR", "SD_VAR_ERROR", "SD_FILE_ERROR", "SD_SWAP_ERROR", "SD_WRITE_ERROR", "SD_RESET_ERROR", "SD_REINIT_ERROR"]
-        if (data.contains("TIME_ACK") || data.contains("TIME_SYNCED")) {
+        else if (data.contains("TIME_ACK") || data.contains("TIME_SYNCED")) {
             if ((mStateM==WSTATE_DUMMY)) {
                 mConnected = true;
                 mCmd = "?";
@@ -308,6 +294,18 @@ public class RCDSMobileActivity extends AppCompatActivity{
             } else
                 Toast.makeText(mContext, "Cannot send data in current state. Do a reset first.", Toast.LENGTH_SHORT).show();
             return;
+        }
+        else if ((data.endsWith(".") || data.endsWith("\r\n")) && !data.endsWith("@#\r\n")) {}
+        else {
+            msgBuilder.append(data);
+            Log.d(TAG, "current msg is:" + msgBuilder.toString());
+        }
+        if (msgBuilder.toString().endsWith("@#\r\n")) {
+            msgBuilder.append(data);
+            String msg = msgBuilder.toString();
+            Log.d(TAG, "full msg is :" + msg);
+            parseInfo(msg.split("@#\r\n")[0]);
+            msgBuilder = new StringBuilder();
         }
     }
 
