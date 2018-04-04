@@ -7,6 +7,7 @@ import android.content.IntentFilter;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.text.method.ScrollingMovementMethod;
+import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
@@ -14,7 +15,12 @@ import android.widget.Spinner;
 import android.widget.TextView;
 import android.widget.Toast;
 
-public class RCDSMobileActivity extends AppCompatActivity {
+import java.util.ArrayList;
+import java.util.HashMap;
+
+public class RCDSMobileActivity extends AppCompatActivity{
+
+    private final String TAG = "RCDSMobileActivity";
 
     private final static int WSTATE_CONNECT=0;
     private final static int WSTATE_SEARCH_SERVICES=1;
@@ -38,12 +44,15 @@ public class RCDSMobileActivity extends AppCompatActivity {
     private String mCmd;
     private boolean mConnected = false;
     private int lastTime = 0;
+    private StringBuilder msgBuilder;
 
     private TumakuBLE  mTumakuBLE=null;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        Log.d(TAG,"onCreate()");
+        msgBuilder = new StringBuilder();
         setContentView(R.layout.activity_rcdsmobile);
         mContext=this;
         mBroadcastReceiver= new HM10BroadcastReceiver();
@@ -163,16 +172,16 @@ public class RCDSMobileActivity extends AppCompatActivity {
                         tmpString = "SET_VARS";
                         break;
                     case "ID":
-                        tmpString = "ID="+mID.toString();
+                        tmpString = "ID="+mID.getText().toString();
                         break;
                     case "LOC":
-                        tmpString = "LOC="+mLoc.toString();
+                        tmpString = "LOC="+mLoc.getText().toString();
                         break;
                     case "DIR":
-                        tmpString = "DIR="+mDir.toString();
+                        tmpString = "DIR="+mDir.getText().toString();
                         break;
                     case "COMMENT":
-                        tmpString = "COMMENT="+mComment.toString();
+                        tmpString = "COMMENT="+mComment.getText().toString();
                         break;
                     case "Start Running":
                         tmpString = "START_RUNNING";
@@ -208,13 +217,25 @@ public class RCDSMobileActivity extends AppCompatActivity {
     }
 
     private void handleResponse(String data) {
+        Log.d(TAG,"handleResponse:\""+data+"\"");
         if (data == null) {
             return;
         }
-        if (data.contains(" ID=") || data.contains(" LOC=") || data.contains(" DIR=") || data.contains(" COMMENT=")) {
-            parseInfo(data);
-            return;
-        } else if (data.contains("TIME_ACK") || data.contains("TIME_SYNCED")) {
+        if(data.endsWith("@#\r\n")){
+            msgBuilder.append(data);
+            String msg = msgBuilder.toString();
+            Log.d(TAG,"full msg is :"+msg);
+            parseInfo(msg.split("@#\r\n")[0]);
+            msgBuilder = new StringBuilder();
+        }else if(data.endsWith("\r\n")){
+            Log.d(TAG,"ignore code:"+data);
+        }
+        else{
+            msgBuilder.append(data);
+            Log.d(TAG,"current msg is:"+msgBuilder.toString());
+        }
+//sasdgah = ["NEED_VARS", "READY", "RUNNING", "SD_INIT_ERROR", "SD_VAR_ERROR", "SD_FILE_ERROR", "SD_SWAP_ERROR", "SD_WRITE_ERROR", "SD_RESET_ERROR", "SD_REINIT_ERROR"]
+        if (data.contains("TIME_ACK") || data.contains("TIME_SYNCED")) {
             if ((mStateM==WSTATE_DUMMY)) {
                 mConnected = true;
                 mCmd = "?";
@@ -291,21 +312,20 @@ public class RCDSMobileActivity extends AppCompatActivity {
     }
 
     private void parseInfo(String info) {
-        try {
-            mState.setText(info.split(" ID=")[0]);
-        } catch (ArrayIndexOutOfBoundsException e) {}
-        try {
-            mID.setText(info.split(" ID=")[1].split(" LOC=")[0]);
-        } catch (ArrayIndexOutOfBoundsException e) {}
-        try {
-            mLoc.setText(info.split(" LOC=")[1].split(" DIR=")[0]);
-        } catch (ArrayIndexOutOfBoundsException e) {}
-        try {
-            mDir.setText(info.split(" DIR=")[1].split(" COMMENT=")[0]);
-        } catch (ArrayIndexOutOfBoundsException e) {}
-        try {
-            mComment.setText(info.split(" COMMENT=")[1].split("\r")[0]);
-        } catch (ArrayIndexOutOfBoundsException e) {}
+        Log.d(TAG,"parseInfo:"+info);
+        String[] temp = info.split(" COMMENT=");
+        if (temp.length > 1)
+            mComment.setText(temp[1]);
+        temp = temp[0].split(" DIR=");
+        if (temp.length > 1)
+            mDir.setText(temp[1]);
+        temp = temp[0].split(" LOC=");
+        if (temp.length > 1)
+            mLoc.setText(temp[1]);
+        temp = temp[0].split(" ID=");
+        if (temp.length > 1)
+            mID.setText(temp[1]);
+        mState.setText(temp[0]);
     }
 
     protected void updateInfoText(String text) {
